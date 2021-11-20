@@ -27,13 +27,28 @@ def welcome():
 def pathInput():
     global path_input
     path_input = input("Choose top directory: c:/")
-    validation()
-#Validate without redundant search? Combine with search()
-def validation():
     path_check = "c:/" + path_input + "/"
     print(path_check)
     global target_path
     target_path = path_check
+    searchDepth()
+    
+def searchDepth():
+    global top_dir
+    global bottom_dir
+    top_dir = False
+    bottom_dir = False
+    print("Select depth of search:")
+    print("'top' - Search target directory")
+    print("'bottom' - Search target and all subdirectories")
+    search_depth = input("Choose depth of search:")
+    if search_depth == "top":
+        top_dir = True
+    elif search_depth == "bottom":
+        bottom_dir = True
+    else:
+        print("Please choose 'top' or 'bottom'")
+        searchDepth()
     search()
 #Allowing argument for multiple sources
 #Use scandir() for argument controlled recursion
@@ -53,10 +68,16 @@ def search():
             #print(os.path.join(root, Files))
             #global total_files
             total_files += 1
-        break
+        if top_dir == True:
+            break
+        elif bottom_dir == True:
+            pass
+        else:
+            print("An error occured")
+            welcome()
     if total_files + total_dirs == 0:
         print("Nothing located")
-        pathInput()
+        welcome()
     else:
         #Uhh should search create the data_object?
         global data_object
