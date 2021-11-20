@@ -1,13 +1,15 @@
 {
-  "criteria": "c:/users/xreddr/repository/",
+  "criteria": "c:/users/xreddr/repository/crawldir/",
   "paths": [
-    "c:/users/xreddr/repository/crawlDir",
-    "c:/users/xreddr/repository/gitdemo",
-    "c:/users/xreddr/repository/mailers",
-    "c:/users/xreddr/repository/py_guide",
-    "c:/users/xreddr/repository/sassbuild"
+    "c:/users/xreddr/repository/crawldir/.git",
+    "c:/users/xreddr/repository/crawldir/.komodotools",
+    "c:/users/xreddr/repository/crawldir/.gitignore",
+    "c:/users/xreddr/repository/crawldir/compare.py",
+    "c:/users/xreddr/repository/crawldir/crawlData.json",
+    "c:/users/xreddr/repository/crawldir/crawlDir.komodoproject",
+    "c:/users/xreddr/repository/crawldir/crawler.py"
   ],
-  "files": 0,
-  "directories": 5,
-  "date": "2021-11-20 09:27:46.090216"
+  "files": 5,
+  "directories": 2,
+  "date": "2021-11-20 09:40:47.347649"
 }
