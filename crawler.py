@@ -32,28 +32,16 @@ def pathInput():
 def validation():
     path_check = "c:/" + path_input + "/"
     print(path_check)
-    valid_count = 0
-    for root, dirs, files in os.walk(path_check):
-        for directories in dirs:
-            valid_count += 1
-        for Files in files:
-            valid_count += 1
-        break
-    if valid_count == 0:
-        print("Nothing located")
-        pathInput()
-    else:
-        global target_dir
-        path_valid = path_check
-        target_dir = path_valid
-        search()
+    global target_path
+    target_path = path_check
+    search()
 #Allowing argument for multiple sources
 #Use scandir() for argument controlled recursion
 def search():
     total_files = 0
     total_dirs = 0
     data_list = []
-    for root, dirs, files in os.walk(target_dir):
+    for root, dirs, files in os.walk(target_path):
         print("Searching in : ", root)
         for directories in dirs:
             data_list.append(os.path.join(root, directories))
@@ -66,20 +54,24 @@ def search():
             #global total_files
             total_files += 1
         break
-    #Uhh should search create the data_object?
-    global data_object
-    data_object = {
-    "criteria" : target_dir,
-    "paths" : data_list,
-    "files" : total_files,
-    "directories" : total_dirs,
-    "date" : str(datetime.datetime.now())
-    }
-    
-    report_object = json.dumps(data_object, indent=2)
-    print(report_object)
-    
-    epilogue()
+    if total_files + total_dirs == 0:
+        print("Nothing located")
+        pathInput()
+    else:
+        #Uhh should search create the data_object?
+        global data_object
+        data_object = {
+        "criteria" : target_path,
+        "paths" : data_list,
+        "files" : total_files,
+        "directories" : total_dirs,
+        "date" : str(datetime.datetime.now())
+        }
+        
+        report_object = json.dumps(data_object, indent=2)
+        print(report_object)
+        
+        epilogue()
     
 def epilogue():
     save_input = input("Would you like to save?")
