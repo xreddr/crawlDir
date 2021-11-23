@@ -3,9 +3,9 @@ import os
 import stat
 
 class scanner:
-    def __init__(self, target):
+    def __init__(self, target, depth):
         self.target = target
-        
+        self.depth = depth
     def search(self):
         print("Searching in: ", self.target)
         for root, dirs, files in os.walk(self.target):
@@ -13,7 +13,11 @@ class scanner:
                 print(os.path.join(root, d))
             for f in files:
                 print(os.path.join(root, f))
-            break
+            self.depth -= 1
+            if self.depth == 0:
+                break
+            else:
+                pass
         # for entry in os.scandir(self.target):
         #     if entry.is_file():
         #         # fc += 1
@@ -28,5 +32,5 @@ class scanner:
         # 
 path = "c:/users/xreddr/repository"
 
-s1 = scanner(path)
+s1 = scanner(path, 2)
 s1.search()
