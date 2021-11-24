@@ -6,18 +6,24 @@ class scanner:
     def __init__(self, target, depth):
         self.target = target
         self.depth = depth
+        self.dl = []
+        self. fl = []
     def search(self):
         print("Searching in: ", self.target)
         for root, dirs, files in os.walk(self.target):
             for d in dirs:
-                print(os.path.join(root, d))
+                self.dl.append(os.path.join(root, d))
+                # print(os.path.join(root, d))
             for f in files:
-                print(os.path.join(root, f))
-            self.depth -= 1
-            if self.depth == 0:
-                break
-            else:
-                pass
+                self.fl.append(os.path.join(root, d))
+                # print(os.path.join(root, f))
+            break
+        for i in self.dl:
+            print(i)
+            # s1.recurse()
+    def recurse(self):
+        i = self.target
+        s1.search()
         # for entry in os.scandir(self.target):
         #     if entry.is_file():
         #         # fc += 1
@@ -32,5 +38,5 @@ class scanner:
         # 
 path = "c:/users/xreddr/repository"
 
-s1 = scanner(path, 2)
+s1 = scanner(path, 1)
 s1.search()
