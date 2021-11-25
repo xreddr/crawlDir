@@ -1,42 +1,45 @@
 #Scandir test
 import os
+import json
 import stat
 
 class scanner:
+    dl = []
+    fl = []
     def __init__(self, target, depth):
         self.target = target
         self.depth = depth
         self.dl = []
-        self. fl = []
+        self.fl = []
     def search(self):
         print("Searching in: ", self.target)
         for root, dirs, files in os.walk(self.target):
             for d in dirs:
                 self.dl.append(os.path.join(root, d))
+                scanner.dl.append(os.path.join(root, d))                
                 # print(os.path.join(root, d))
             for f in files:
-                self.fl.append(os.path.join(root, d))
+                self.fl.append(os.path.join(root, f))
+                scanner.fl.append(os.path.join(root, f))
                 # print(os.path.join(root, f))
             break
-        for i in self.dl:
-            print(i)
-            # s1.recurse()
-    def recurse(self):
-        i = self.target
-        s1.search()
-        # for entry in os.scandir(self.target):
-        #     if entry.is_file():
-        #         # fc += 1
-        #         # yield entry.name
-        #         print(entry.name)
-        #     elif entry.is_dir():
-        #         # dc += 1
-        #         # yield entry.name
-        #         print(entry.name)
-        #         self.target = entry.path
-        #         scanner.search(self)
-        # 
+        if self.depth >= 1:
+            self.depth -= 1
+            x = scanner(self.target, self.depth)
+            for i in self.dl:
+                x.target = i
+                x.search()
+        else:
+            data_report = {
+                "Directories" : scanner.dl,
+                "Files" : scanner.fl
+            }
+            global rp
+            rp = json.dumps(data_report, indent=2)
+            return
+
 path = "c:/users/xreddr/repository"
 
-s1 = scanner(path, 1)
+s1 = scanner(path, 3)
 s1.search()
+print(rp)
