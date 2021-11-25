@@ -4,6 +4,8 @@ import json
 import stat
 
 class scanner:
+    root = []
+    depth = []
     dl = []
     fl = []
     def __init__(self, target, depth):
@@ -12,6 +14,11 @@ class scanner:
         self.dl = []
         self.fl = []
     def search(self):
+        if scanner.root == [] and scanner.depth == []:
+            scanner.root.append(self.target)
+            scanner.depth.append(self.depth)
+        else:
+            pass
         print("Searching in: ", self.target)
         for root, dirs, files in os.walk(self.target):
             for d in dirs:
@@ -40,6 +47,8 @@ class scanner:
 
 path = "c:/users/xreddr/repository"
 
-s1 = scanner(path, 3)
+s1 = scanner(path, 1)
 s1.search()
 print(rp)
+print(scanner.root)
+print(scanner.depth)
