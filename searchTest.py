@@ -3,10 +3,8 @@ import os
 import json
 
 class scanner:
-    root = []
-    depth = []
     data = {
-        "criteria" : [root, depth],
+        "criteria" : {},
         "data" : {}
     }
     def __init__(self, target, depth):
@@ -15,9 +13,9 @@ class scanner:
     def search(self):
         dl = []
         fl = []
-        if scanner.root == [] and scanner.depth == []:
-            scanner.root.append(self.target)
-            scanner.depth.append(self.depth)
+        if scanner.data["criteria"] == {}:
+            scanner.data["criteria"]["target"] = (self.target)
+            scanner.data["criteria"]["depth"] = (self.depth)
         else:
             pass
         print("Searching in: ", self.target)
