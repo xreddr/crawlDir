@@ -1,4 +1,4 @@
-#File Crawler
+# File Crawler
 """
 To count directories and files within another directory and
 compare the results over time to track accumulating files.
@@ -6,33 +6,62 @@ To do:
 Set up user input for "depth of search"
 Bring compare function into loop?
 """
-import sys #to use sys.exit() for UI
-import os #to operate within directories
-import datetime #to compare time stamps
-import json #for file saving
+import sys  # to use sys.exit() for UI
+import os  # to operate within directories
+import datetime  # to compare time stamps
+import json  # for file saving
 
-#UI prompts
+
+def main():
+    welcome()
+    path, depth = pathInput()
+
+
+# UI prompts
+
+
 def welcome():
-    user_input = input("Would you like to start a new crawl?")
-    if user_input == "yes":
-        pathInput()
-    elif user_input == "no":
-        print("Goodbye")
-        print("<(^.^<) (>^.^)>")
-        sys.exit()
-    else:
-        print("Please choose 'yes' or 'no'.")
-        welcome()
-#Depth of search using os.scandir()
+    print("o--(====> Welcome to CrawlDir <====)--o")
+    while True:
+        user_input = input(
+            "1) Yes\n2) No\nWould you like to start a new crawl? ")
+        tmp = user_input
+        valid_input = tmp.lower()
+        if "yes" in valid_input:
+            print("yes")
+            return True
+        elif "no" in valid_input:
+            print("Goodbye")
+            exit()
+# Depth of search using os.scandir()
+
+
 def pathInput():
-    global path_input
-    path_input = input("Choose top directory: c:/")
-    path_check = "c:/" + path_input + "/"
-    print(path_check)
-    global target_path
-    target_path = path_check
-    searchDepth()
-    
+    while True:
+        path_input = input("Choose top directory: c:/")
+        tmp = path_input.replace("\\", "/")
+        tmp2 = tmp.replace("//", "/")
+        valid_path = "c:/" + tmp2 + "/"
+        print(valid_path)
+        confirm = input("1) Yes\n2) No\nIs this the path you want to crawl? ")
+        valid = confirm.lower()
+        if "yes" in valid:
+            print(valid_path)
+            break
+        if "no" in valid:
+            continue
+
+    while True:
+        user_input = input(
+            "How many subdirectories deep do you want to crawl: ")
+        user_depth = int(user_input)
+        print(f"Search {valid_path} with a depth of {user_depth}?")
+        input("Press Enter to continue")
+        break
+
+    return valid_path, user_depth
+
+
 def searchDepth():
     # global top_dir
     # global bottom_dir
@@ -50,8 +79,10 @@ def searchDepth():
     #     print("Please choose 'top' or 'bottom'")
     #     searchDepth()
     search()
-#Allowing argument for multiple sources
-#Use scandir() for argument controlled recursion
+# Allowing argument for multiple sources
+# Use scandir() for argument controlled recursion
+
+
 def search():
     total_files = 0
     total_dirs = 0
@@ -80,21 +111,22 @@ def search():
         print("Nothing located")
         welcome()
     else:
-        #Uhh should search create the data_object?
+        # Uhh should search create the data_object?
         global data_object
         data_object = {
-        "criteria" : target_path,
-        "paths" : data_list,
-        "files" : total_files,
-        "directories" : total_dirs,
-        "date" : str(datetime.datetime.now())
+            "criteria": target_path,
+            "paths": data_list,
+            "files": total_files,
+            "directories": total_dirs,
+            "date": str(datetime.datetime.now())
         }
-        
+
         report_object = json.dumps(data_object, indent=2)
         print(report_object)
-        
+
         epilogue()
-    
+
+
 def epilogue():
     save_input = input("Would you like to save?")
     if save_input == "yes":
@@ -105,6 +137,7 @@ def epilogue():
         print("Please choose 'yes' or 'no'.")
         epilogue()
 
+
 def fileSave():
     with open("crawlData.json", "w") as outfile:
         json.dump(data_object, outfile, indent=2)
@@ -113,9 +146,10 @@ def fileSave():
     # f = open("crawlData.json", "r")
     # print(f.read())
     # f.close()
-    
+
     print("File Saved")
     welcome()
-    
-print("o--(====> Welcome to CrawlDir <====)--o")
-welcome()
+
+
+if __name__ == "__main__":
+    main()
