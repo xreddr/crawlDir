@@ -60,6 +60,13 @@ class Scanner:
         tmp = prep.replace("\\", "/")
         self.report = tmp.replace("//", "/")
 
+        if self.report:
+
+            Scanner.data = {
+                "criteria": {},
+                "data": {}
+            }
+
 
 # s = json.loads(Scanner.report)
 # print(s.keys())

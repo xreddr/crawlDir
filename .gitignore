@@ -1,1 +1,3 @@
-crawlDir.komodoproject
+*.json
+*.pyc
+__pycache__
