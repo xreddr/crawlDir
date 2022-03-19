@@ -9,10 +9,13 @@ import re
 def main():
     selection = None
     while selection is None:
+
         selection = welcome()
+
         if selection == "new":
             new_report = user_select_criteria()
             file_name = user_select_file_name()
+
             if new_report and file_name:
 
                 save_file(new_report, file_name)
@@ -21,46 +24,38 @@ def main():
                 continue
 
         elif selection == "compare":
-            compare_file = user_select_compare_file()
+
+            compare_file = user_select_saved_file()
+
             if compare_file:
 
                 saved_object = open_file(compare_file)
+
+                if saved_object is None:
+                    selection = None
+                    continue
+
                 compare.compare_crawls(saved_object)
 
                 selection = None
                 continue
 
-            # print(compare_file)
+        elif selection == "manage":
 
-            # print(saves)
+            selected_file = user_select_saved_file()
+            if selected_file:
 
+                file_manage_menu(selected_file)
 
-def save_file(data, file_name):
-    ''' Takes file data, name. Saves .json to saves directory.'''
-    prep = json.loads(data)
-    path = "saves/" + file_name
-    with open(path, 'w') as outfile:
-        json.dump(prep, outfile, indent=4)
-        outfile.close()
-        print("File saved")
-
-
-def open_file(file_name):
-    ''' Takes file name. Opens from saves directory'''
-    path = "saves/" + file_name
-    with open(path, 'r') as infile:
-        data = json.load(infile)
-        infile.close()
-        print("File opened.")
-    # compare_object = json.loads(data)
-    print(type(data))
-    return data
+                selection = None
+                continue
 
 
 def welcome():
     selection = None
     while selection is None:
-        print("1) Start a new crawl\n2) Compare saved crawl\n3) Quit")
+        print(
+            "\n1) Start a new crawl\n2) Compare saved crawl\n3) Manage saved crawls\n4) Quit")
         raw = input("Please select: ")
         valid = raw.lower()
         if valid == "1":
@@ -74,6 +69,11 @@ def welcome():
             selection = "compare"
             return selection
         elif valid == "3":
+            print()
+            print("Saved crawls loading...")
+            selection = "manage"
+            return selection
+        elif valid == "4":
             print("Goodbye")
             quit()
 
@@ -118,7 +118,7 @@ def user_select_file_name():
     return file_name
 
 
-def user_select_compare_file():
+def user_select_saved_file():
     saves = search.scan("saves", 0)
     prep = saves.replace("saves/", "")
     save_data = json.loads(prep)
@@ -126,7 +126,7 @@ def user_select_compare_file():
         print(file)
     selection = None
     while selection is None:
-        raw = input("Please select a saved crawl for comparison: ")
+        raw = input("Please select a saved crawl: ")
         extension = False
         if ".json" not in raw:
             raw = raw + ".json"
@@ -136,6 +136,62 @@ def user_select_compare_file():
         if extension:
             saved_file = raw
             return saved_file
+
+
+def file_manage_menu(file_name):
+    loop = True
+    while loop == True:
+        raw_ans = input(
+            "1) View crawl info\n2) Delete crawl file\n3) Return to menu\nWhat would you like to do? ")
+        valid = raw_ans.lower()
+        if valid == "1":
+            data = open_file(file_name)
+            print(json.dumps(data, indent=2))
+            input("Press ENTER to continue")
+            continue
+        if valid == "2":
+            ans = input(
+                f"Are you sure you want to delete {file_name}? (Y/N): ").upper()
+            if ans == "Y":
+                path = "saves/" + file_name
+                os.remove(path)
+                loop = False
+            elif ans == "N":
+                continue
+        if valid == "3":
+            loop = False
+
+
+def save_file(data, file_name):
+    ''' Takes file data, name. Saves .json to saves directory.'''
+    try:
+        os.makedirs("saves")
+    except OSError:
+        pass
+    prep = json.loads(data)
+    path = "saves/" + file_name
+    with open(path, 'w') as outfile:
+        json.dump(prep, outfile, indent=4)
+        outfile.close()
+        print("File saved")
+
+
+def open_file(file_name):
+    ''' Takes file name. Opens from saves directory'''
+    path = "saves/" + file_name
+    try:
+        with open(path, 'r') as infile:
+            data = json.load(infile)
+            infile.close()
+            print("File opened.")
+        # compare_object = json.loads(data)
+        print(type(data))
+
+        return data
+
+    except FileNotFoundError:
+        print("No such crawl is saved")
+        return None
 
 
 if __name__ == '__main__':

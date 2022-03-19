@@ -1,27 +1,30 @@
 ![alt text](https://github.com/xreddr/xreddr/blob/main/images/cd_banner.png)
 
 
-# Welcome to CrawlDir
+# Welcome to Crawl_dir
 
 ## Version Info
 
-Working alpha version, some minor changes may not be tracked.
-
-This is a student project repo and is not open for collaberation at this time. 
+This project currently has no dependences so a package has not been officially created and versioned. 
 
 ## Install Instructions
 
-1. Have the latest version of python installed. No additonal modules are required.
+1. Python 3.9.4 or above recomended.
 
-2. Clone this repository or download files crawler.py and compare.py into a local directory.
+2. Clone this repository or download the crawl_dir folder and run app.py.
 
 ## User Instructions
 
-1. Run crawler.py in local directory or from py script command.
+1. Run app.py from the crawl_dir directory in your CLI using the python command
 
-2. Seperate directories using a forward slash '/' when searching.
+2. The app will direct you through saving and comparing your crawls.
 
-3. Saving your search will create a crawlData.json file in the local directory.
+3. Saves are stored in an automatically created directory inside the crawl_dir folder. Point the crawl at crawl_dir itself to track it's saves!
 
-4. Run compare.py from local directory or from py script command. You will get a time stamped
-comparison of the state of your searched directory.
+## Upcoming Features
+
+1. Optimization of file size for storage. Eliminate redundant paths in .json save files. Concatenate key:value pairs in comparative analysis.
+
+2. Better input validation and navigation. Cancel actions such as file saving.
+
+3. GUI using Kivy. Form inputs. Graphical file selecting.

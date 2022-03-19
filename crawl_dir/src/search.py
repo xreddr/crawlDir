@@ -19,6 +19,11 @@ def scan(target, depth):
     ''' Takes user input. Returns json report.'''
     s = Scanner(target, depth)
     s.search()
+    if s.report:
+        Scanner.data = {
+            "criteria": {},
+            "data": {}
+        }
     return s.report
 
 
@@ -48,7 +53,8 @@ class Scanner:
             for f in files:
                 fl.append(os.path.join(root, f))
             break
-        Scanner.data["data"].update({self.target: {"dirs": dl, "files": fl}})
+        Scanner.data["data"].update(
+            {self.target: {"dirs": dl, "files": fl}})
         if self.depth >= 1:
             self.depth -= 1
             for i in dl:
@@ -60,17 +66,9 @@ class Scanner:
         tmp = prep.replace("\\", "/")
         self.report = tmp.replace("//", "/")
 
-        if self.report:
-
-            Scanner.data = {
-                "criteria": {},
-                "data": {}
-            }
-
-
-# s = json.loads(Scanner.report)
-# print(s.keys())
-# for i in s["data"].keys():
-#     print(i)
+        # s = json.loads(Scanner.report)
+        # print(s.keys())
+        # for i in s["data"].keys():
+        #     print(i)
 if __name__ == '__main__':
     debug()
