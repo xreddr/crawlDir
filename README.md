@@ -5,11 +5,11 @@
 
 ## Version Info
 
-This project currently has no dependences so a package has not been officially created and versioned. 
+V 1.0.0 - CRUD functions operational.
 
 ## Install Instructions
 
-1. Python 3.9.4 or above recomended.
+1. Python 3.9.4 or above recomended. There are no required packages.
 
 2. Clone this repository or download the crawl_dir folder and run app.py.
 
